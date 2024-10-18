@@ -1,2 +1,2 @@
-# CuvetteAssiment_frontend
+# CuvetteAssigment_frontend
 Assignment: Job Posting Board with Email Automation
