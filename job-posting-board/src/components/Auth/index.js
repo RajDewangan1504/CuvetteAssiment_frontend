@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Header from '../Header';
 import SignUp from '../common/SignUp';
-import SignIn from '../common/SignIn';
+import SignUpNext from '../common/SignIn';
+import Login from '../common/Login';
 
 export class AuthPage extends Component {
     constructor(props) {
@@ -26,7 +27,7 @@ export class AuthPage extends Component {
                 {this.state.isSigningUp ? (
                     <SignUp onSignUpSuccess={this.toggleAuthMode} />  
                 ) : (
-                <SignIn />
+                <SignUpNext />
                 )}
 
                 

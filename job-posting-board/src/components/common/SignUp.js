@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { FiUser, FiPhone, FiMail, FiBriefcase, FiUsers } from 'react-icons/fi'; // Import the icons
+import { FiUser, FiPhone, FiMail, FiBriefcase, FiUsers, FiLock } from 'react-icons/fi'; // Import the icons
+import {  useNavigate } from 'react-router-dom';
 
 const SignUp = ({ onSignUpSuccess }) => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
         company: '',
         email: '',
         employeeSize: '',
+        password: '',  // Add password to the formData
     });
 
     const [errors, setErrors] = useState({});
@@ -30,6 +33,10 @@ const SignUp = ({ onSignUpSuccess }) => {
         }));
     };
 
+    const navigateToLogin = () => {
+       navigate('/login');  // Navigate to login page
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors({});
@@ -40,6 +47,7 @@ const SignUp = ({ onSignUpSuccess }) => {
         if (!formData.company) newErrors.company = 'Company name is required';
         if (!formData.email || !validateEmail(formData.email)) newErrors.email = 'Valid email is required';
         if (!formData.employeeSize) newErrors.employeeSize = 'Employee size is required';
+        if (!formData.password) newErrors.password = 'Password is required';  // Password validation
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
@@ -50,7 +58,7 @@ const SignUp = ({ onSignUpSuccess }) => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row justify-center items-center w-full lg:m-auto  lg:w-3/4 p-1 space-y-8 lg:space-y-0 lg:space-x-16">
+        <div className="flex flex-col lg:flex-row justify-center items-center w-full lg:m-auto lg:w-3/4 p-1 space-y-8 lg:space-y-0 lg:space-x-16">
             <div className="text-center lg:text-left lg:w-1/2 flex items-center">
                 <p className="text-gray-700 text-lg leading-relaxed">
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
@@ -65,9 +73,8 @@ const SignUp = ({ onSignUpSuccess }) => {
                     <form onSubmit={handleSubmit}>
                         {/* Name */}
                         <div className="mb-4">
-                            {/* <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label> */}
                             <div className="flex items-center border border-gray-300 rounded-md shadow-sm">
-                                <FiUser className="text-gray-500 ml-3" /> {/* Icon */}
+                                <FiUser className="text-gray-500 ml-3" />
                                 <input
                                     type="text"
                                     id="name"
@@ -83,9 +90,8 @@ const SignUp = ({ onSignUpSuccess }) => {
 
                         {/* Phone */}
                         <div className="mb-4">
-                            {/* <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone no.</label> */}
                             <div className="flex items-center border border-gray-300 rounded-md shadow-sm">
-                                <FiPhone className="text-gray-500 ml-3" /> {/* Icon */}
+                                <FiPhone className="text-gray-500 ml-3" />
                                 <input
                                     type="text"
                                     id="phone"
@@ -101,9 +107,8 @@ const SignUp = ({ onSignUpSuccess }) => {
 
                         {/* Company */}
                         <div className="mb-4">
-                            {/* <label htmlFor="company" className="block text-sm font-medium text-gray-700">Company Name</label> */}
                             <div className="flex items-center border border-gray-300 rounded-md shadow-sm">
-                                <FiUser className="text-gray-500 ml-3" /> {/* Icon */}
+                                <FiBriefcase className="text-gray-500 ml-3" />
                                 <input
                                     type="text"
                                     id="company"
@@ -119,9 +124,8 @@ const SignUp = ({ onSignUpSuccess }) => {
 
                         {/* Email */}
                         <div className="mb-4">
-                            {/* <label htmlFor="email" className="block text-sm font-medium text-gray-700">Company Email</label> */}
                             <div className="flex items-center border border-gray-300 rounded-md shadow-sm">
-                                <FiMail className="text-gray-500 ml-3" /> {/* Icon */}
+                                <FiMail className="text-gray-500 ml-3" />
                                 <input
                                     type="email"
                                     id="email"
@@ -137,9 +141,8 @@ const SignUp = ({ onSignUpSuccess }) => {
 
                         {/* Employee Size */}
                         <div className="mb-4">
-                            {/* <label htmlFor="employeeSize" className="block text-sm font-medium text-gray-700">Employee Size</label> */}
                             <div className="flex items-center border border-gray-300 rounded-md shadow-sm">
-                                <FiUsers className="text-gray-500 ml-3" /> {/* Icon */}
+                                <FiUsers className="text-gray-500 ml-3" />
                                 <input
                                     type="text"
                                     id="employeeSize"
@@ -153,7 +156,22 @@ const SignUp = ({ onSignUpSuccess }) => {
                             {errors.employeeSize && <p className="text-red-500 text-xs mt-1">{errors.employeeSize}</p>}
                         </div>
 
-
+                        {/* Password */}
+                        <div className="mb-4">
+                            <div className="flex items-center border border-gray-300 rounded-md shadow-sm">
+                                <FiLock className="text-gray-500 ml-3" /> {/* Password Icon */}
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    placeholder="Password"
+                                    className="flex-1 block w-full px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                />
+                            </div>
+                            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+                        </div>
 
                         <div className="flex items-center mb-6 text-center justify-center">
                             <label htmlFor="terms" className="ml-2 block text-sm text-gray-900 text-center">
@@ -166,6 +184,18 @@ const SignUp = ({ onSignUpSuccess }) => {
                         >
                             Proceed
                         </button>
+                        <div className="mt-4 text-center">
+                            <p>
+                                Already registered?{' '}
+                                <button
+                                    onClick={navigateToLogin}
+                                    className="text-blue-500 hover:underline"
+                                >
+                                    Login here
+                                </button>
+                            </p>
+                        </div>
+
                     </form>
                 </div>
             </div>
